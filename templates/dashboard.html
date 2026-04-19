@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dashboard - AutoEval</title>
+</head>
+<body>
+    <h2>Welcome, {{ user }}</h2>
+    <a href="{{ url_for('upload') }}">Evaluate Answer Sheet</a><br><br>
+    <a href="{{ url_for('history') }}">View History</a><br><br>
+    <a href="{{ url_for('logout') }}">Logout</a>
+</body>
+</html>

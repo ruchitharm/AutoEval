@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Login - AutoEval</title>
+</head>
+<body>
+    <h2>AutoEval Login</h2>
+
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        {% for msg in messages %}
+          <p style="color:red;">{{ msg }}</p>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+
+    <form method="POST">
+        <label>Username:</label><br>
+        <input type="text" name="username" required><br><br>
+
+        <label>Password:</label><br>
+        <input type="password" name="password" required><br><br>
+
+        <button type="submit">Login</button>
+    </form>
+</body>
+</html>

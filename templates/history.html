@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Evaluation History</title>
+</head>
+<body>
+    <h2>Past Evaluations</h2>
+
+    <table border="1" cellpadding="10">
+        <tr>
+            <th>ID</th>
+            <th>Student Name</th>
+            <th>Subject</th>
+            <th>Similarity Score</th>
+            <th>Marks</th>
+        </tr>
+        {% for row in rows %}
+        <tr>
+            <td>{{ row[0] }}</td>
+            <td>{{ row[1] }}</td>
+            <td>{{ row[2] }}</td>
+            <td>{{ row[3] }}</td>
+            <td>{{ row[4] }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <br>
+    <a href="{{ url_for('dashboard') }}">Back to Dashboard</a>
+</body>
+</html>
