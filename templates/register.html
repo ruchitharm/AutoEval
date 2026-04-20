@@ -1,356 +1,401 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AutoEval Register</title>
-<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;600&display=swap" rel="stylesheet">
-<style>
-  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-  :root {
-    --green: #00ffaa; --blue: #0066ff; --red: #ff4466;
-    --dark: #050a14; --card: rgba(8, 20, 40, 0.85);
-  }
-  body {
-    min-height: 100vh; display: flex; justify-content: center; align-items: center;
-    font-family: 'Rajdhani', sans-serif; background: var(--dark); overflow-y: auto;
-  }
-  .bg {
-    position: fixed; inset: 0; z-index: 0;
-    background:
-      radial-gradient(ellipse 80% 60% at 80% 50%, rgba(0,255,170,0.12) 0%, transparent 60%),
-      radial-gradient(ellipse 60% 80% at 20% 30%, rgba(0,102,255,0.15) 0%, transparent 60%),
-      #050a14;
-  }
-  .grid {
-    position: fixed; inset: 0; z-index: 0; pointer-events: none;
-    background-image: linear-gradient(rgba(0,255,170,0.04) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(0,255,170,0.04) 1px, transparent 1px);
-    background-size: 60px 60px; animation: gridMove 20s linear infinite;
-  }
-  @keyframes gridMove { from{transform:translateY(0)} to{transform:translateY(60px)} }
-  .orb { position:fixed;border-radius:50%;filter:blur(80px);pointer-events:none;z-index:0;animation:float 8s ease-in-out infinite; }
-  .orb1 { width:400px;height:400px;top:-100px;right:-100px;background:rgba(0,255,170,0.15); }
-  .orb2 { width:300px;height:300px;bottom:-80px;left:-80px;background:rgba(0,102,255,0.2);animation-delay:-3s; }
-  @keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-30px)} }
-  .particles { position:fixed;inset:0;z-index:0;pointer-events:none; }
-  .particle { position:absolute;width:2px;height:2px;background:var(--green);border-radius:50%;animation:particleFloat linear infinite;opacity:0; }
-  @keyframes particleFloat { 0%{transform:translateY(100vh);opacity:0} 10%{opacity:1} 90%{opacity:1} 100%{transform:translateY(-10vh);opacity:0} }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background:
+                radial-gradient(circle at top left, rgba(20, 184, 166, 0.20), transparent 30%),
+                radial-gradient(circle at bottom right, rgba(56, 189, 248, 0.16), transparent 28%),
+                linear-gradient(135deg, #0f172a, #111827, #1e293b);
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            box-sizing: border-box;
+        }
 
-  .card {
-    position:relative;z-index:10;width:450px;padding:44px 44px 36px;
-    background:var(--card);border:1px solid rgba(0,255,170,0.18);border-radius:20px;
-    box-shadow:0 0 0 1px rgba(0,255,170,0.06),0 20px 60px rgba(0,0,0,0.6),inset 0 1px 0 rgba(255,255,255,0.06);
-    backdrop-filter:blur(24px);animation:cardIn 0.7s cubic-bezier(0.16,1,0.3,1) both;margin:20px;
-  }
-  @keyframes cardIn { from{opacity:0;transform:translateY(40px) scale(0.96)} to{opacity:1;transform:translateY(0) scale(1)} }
-  .card::before {
-    content:'';position:absolute;top:0;left:20%;right:20%;height:1px;
-    background:linear-gradient(90deg,transparent,var(--green),transparent);
-    box-shadow:0 0 12px var(--green);
-  }
+        .container {
+            width: 100%;
+            max-width: 1100px;
+            background: rgba(0, 0, 0, 0.55);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 24px;
+            overflow: hidden;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.35);
+        }
 
-  .logo { text-align:center;margin-bottom:8px; }
-  .logo-icon {
-    display:inline-flex;align-items:center;justify-content:center;
-    width:56px;height:56px;border-radius:14px;
-    background:linear-gradient(135deg,#00aa66,#0066ff);
-    box-shadow:0 8px 24px rgba(0,255,170,0.3);margin-bottom:12px;
-  }
-  .logo-icon svg { width:28px;height:28px;fill:white; }
-  .brand { font-family:'Orbitron',monospace;font-size:20px;font-weight:900;letter-spacing:3px;color:#fff;text-shadow:0 0 20px rgba(0,255,170,0.4); }
-  .brand span { color:var(--green); }
-  .tagline { font-size:11px;letter-spacing:2px;color:rgba(255,255,255,0.35);text-transform:uppercase;margin-top:4px; }
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            min-height: 650px;
+        }
 
-  .divider { display:flex;align-items:center;gap:12px;margin:20px 0 16px; }
-  .divider-line { flex:1;height:1px;background:rgba(0,255,170,0.15); }
-  .divider-text { font-size:11px;color:rgba(255,255,255,0.3);letter-spacing:2px; }
+        .left-side,
+        .right-side {
+            padding: 40px 34px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
 
-  .rules-box {
-    background:rgba(0,255,170,0.04);border:1px solid rgba(0,255,170,0.15);
-    border-radius:10px;padding:14px 16px;margin-bottom:18px;
-  }
-  .rules-title { font-size:11px;letter-spacing:2px;color:var(--green);text-transform:uppercase;margin-bottom:10px;font-weight:600; }
-  .rules-section { font-size:11px;color:rgba(255,255,255,0.28);letter-spacing:1px;text-transform:uppercase;margin:8px 0 5px; }
-  .rule-item {
-    display:flex;align-items:center;gap:8px;font-size:13px;
-    color:rgba(255,255,255,0.4);margin-bottom:5px;transition:color 0.3s;
-  }
-  .rule-item:last-child { margin-bottom:0; }
-  .rule-icon { font-size:12px;min-width:16px;text-align:center;transition:all 0.3s; }
-  .rule-item .rule-icon::before { content:'○';color:rgba(255,255,255,0.25); }
-  .rule-item.valid { color:var(--green); }
-  .rule-item.valid .rule-icon::before { content:'✔';color:var(--green); }
-  .rule-item.invalid { color:var(--red); }
-  .rule-item.invalid .rule-icon::before { content:'✘';color:var(--red); }
+        .left-side {
+            background: linear-gradient(160deg, rgba(20, 184, 166, 0.12), rgba(56, 189, 248, 0.08));
+            border-right: 1px solid rgba(255, 255, 255, 0.08);
+            color: white;
+        }
 
-  .field { position:relative;margin-bottom:13px; }
-  .field-label { font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,0.3);margin-bottom:5px; }
-  .field-wrap { position:relative; }
-  .field-icon { position:absolute;left:14px;top:50%;transform:translateY(-50%);color:rgba(0,255,170,0.35);font-size:15px;pointer-events:none;transition:color 0.3s; }
-  .field-wrap:focus-within .field-icon { color:var(--green); }
-  .field-check { position:absolute;right:14px;top:50%;transform:translateY(-50%);font-size:14px;opacity:0;transition:opacity 0.3s; }
+        .right-side {
+            color: white;
+        }
 
-  input[type="text"], input[type="password"] {
-    width:100%;padding:13px 40px 13px 42px;
-    background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);
-    border-radius:10px;color:#fff;font-size:15px;font-family:'Rajdhani',sans-serif;
-    letter-spacing:0.5px;outline:none;transition:all 0.3s;
-  }
-  input::placeholder { color:rgba(255,255,255,0.22); }
-  input:focus { border-color:rgba(0,255,170,0.5);background:rgba(0,255,170,0.04);box-shadow:0 0 0 3px rgba(0,255,170,0.08); }
-  input.valid-input { border-color:rgba(0,255,170,0.55); }
-  input.invalid-input { border-color:rgba(255,68,102,0.55);background:rgba(255,68,102,0.03); }
+        h2 {
+            text-align: center;
+            margin: 0 0 10px;
+            font-size: 42px;
+            font-weight: 800;
+            color: white;
+        }
 
-  .hint { font-size:12px;margin-top:4px;margin-left:2px;display:none;letter-spacing:0.3px; }
-  .hint.show { display:block; }
-  .hint.error { color:var(--red); }
-  .hint.success { color:var(--green); }
+        .subtitle {
+            text-align: center;
+            color: #b9c3d7;
+            font-size: 18px;
+            margin-bottom: 28px;
+        }
 
-  .strength-wrap { margin-top:6px;display:none; }
-  .strength-wrap.show { display:block; }
-  .strength-label { font-size:11px;color:rgba(255,255,255,0.3);margin-bottom:4px;letter-spacing:1px; }
-  .strength-bar { height:4px;border-radius:2px;background:rgba(255,255,255,0.08);overflow:hidden; }
-  .strength-fill { height:100%;border-radius:2px;width:0%;transition:width 0.4s,background 0.4s; }
+        .rules-box {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.10);
+            border-radius: 16px;
+            padding: 22px;
+        }
 
-  .btn {
-    width:100%;padding:14px;border:none;border-radius:10px;cursor:pointer;
-    font-family:'Orbitron',monospace;font-size:12px;font-weight:700;
-    letter-spacing:3px;text-transform:uppercase;color:#fff;
-    background:linear-gradient(135deg,#00aa66 0%,#0066ff 100%);
-    position:relative;overflow:hidden;transition:transform 0.2s,box-shadow 0.2s,opacity 0.3s;
-    box-shadow:0 4px 20px rgba(0,170,102,0.35);margin-top:8px;
-  }
-  .btn:hover:not(:disabled) { transform:translateY(-2px);box-shadow:0 8px 30px rgba(0,170,102,0.5); }
-  .btn:disabled { opacity:0.35;cursor:not-allowed; }
+        .rules-box h3 {
+            margin: 0 0 14px;
+            font-size: 22px;
+            text-align: center;
+            color: #ffffff;
+        }
 
-  .footer-link { text-align:center;margin-top:20px;font-size:14px;color:rgba(255,255,255,0.4); }
-  .footer-link a { color:var(--green);text-decoration:none;font-weight:600; }
-</style>
+        .rule-group {
+            margin-bottom: 18px;
+        }
+
+        .rule-group h4 {
+            margin: 0 0 8px;
+            font-size: 16px;
+            color: #dbe6f7;
+            text-align: left;
+        }
+
+        .rule {
+            font-size: 13px;
+            color: #9ca8bb;
+            margin: 4px 0;
+            line-height: 1.5;
+        }
+
+        .pass {
+            color: #4ade80;
+        }
+
+        .fail {
+            color: #f87171;
+        }
+
+        .form-card {
+            width: 100%;
+            max-width: 460px;
+            margin: 0 auto;
+        }
+
+        .form-group {
+            margin-bottom: 16px;
+            text-align: center;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            color: #eef3fb;
+        }
+
+        input {
+            width: 100%;
+            padding: 14px 16px;
+            border-radius: 14px;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            outline: none;
+            background: rgba(255, 255, 255, 0.10);
+            color: white;
+            font-size: 15px;
+            text-align: center;
+            box-sizing: border-box;
+            transition: 0.25s ease;
+        }
+
+        input::placeholder {
+            color: #c8d3e2;
+        }
+
+        input:focus {
+            border-color: rgba(56, 189, 248, 0.95);
+            box-shadow: 0 0 0 4px rgba(56, 189, 248, 0.14);
+            background: rgba(255, 255, 255, 0.14);
+        }
+
+        button {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, #14b8a6, #38bdf8);
+            border: none;
+            color: white;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            border-radius: 14px;
+            margin-top: 8px;
+            transition: 0.25s ease;
+        }
+
+        button:hover:enabled {
+            transform: translateY(-2px);
+            box-shadow: 0 14px 30px rgba(20, 184, 166, 0.28);
+        }
+
+        button:disabled {
+            background: #5b6477;
+            cursor: not-allowed;
+        }
+
+        .bottom-text {
+            margin-top: 18px;
+            text-align: center;
+            color: #b9c3d7;
+            font-size: 14px;
+        }
+
+        .bottom-text a {
+            color: #7dd3fc;
+            font-weight: 700;
+            text-decoration: none;
+        }
+
+        .bottom-text a:hover {
+            text-decoration: underline;
+        }
+
+        .flash-message {
+            margin-bottom: 16px;
+            padding: 12px 14px;
+            border-radius: 12px;
+            text-align: center;
+            font-weight: 600;
+            background: rgba(34, 197, 94, 0.16);
+            border: 1px solid rgba(34, 197, 94, 0.25);
+            color: #eafff2;
+        }
+
+        .error-message {
+            background: rgba(239, 68, 68, 0.16);
+            border: 1px solid rgba(239, 68, 68, 0.25);
+            color: #fff1f1;
+        }
+
+        @media (max-width: 900px) {
+            .grid {
+                grid-template-columns: 1fr;
+            }
+
+            .left-side {
+                border-right: none;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            }
+
+            .container {
+                max-width: 600px;
+            }
+        }
+
+        @media (max-width: 600px) {
+            body {
+                padding: 12px;
+            }
+
+            .left-side,
+            .right-side {
+                padding: 24px 18px;
+            }
+
+            h2 {
+                font-size: 32px;
+            }
+
+            .subtitle {
+                font-size: 15px;
+            }
+
+            .rules-box h3 {
+                font-size: 19px;
+            }
+        }
+    </style>
 </head>
 <body>
-<div class="bg"></div>
-<div class="grid"></div>
-<div class="orb orb1"></div>
-<div class="orb orb2"></div>
-<div class="particles" id="particles"></div>
 
-<div class="card">
-  <div class="logo">
-    <div class="logo-icon">
-      <svg viewBox="0 0 24 24"><path d="M15 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm-9-2V7H4v3H1v2h3v3h2v-3h3v-2H6zm9 4c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+<div class="container">
+    <div class="grid">
+        <!-- LEFT SIDE RULES -->
+        <div class="left-side">
+            <h2>Register</h2>
+            <div class="subtitle">Create your account with valid details</div>
+
+            <div class="rules-box">
+                <h3>Rules for Register</h3>
+
+                <div class="rule-group">
+                    <h4>Email Rule</h4>
+                    <div class="rule" id="emailRule">Use format: name123@gmail.com</div>
+                    <div class="rule" id="emailRule2">Only letters and numbers before @gmail.com</div>
+                </div>
+
+                <div class="rule-group">
+                    <h4>Username Rules</h4>
+                    <div class="rule" id="u1">Minimum 4 characters</div>
+                    <div class="rule" id="u2">No spaces allowed</div>
+                </div>
+
+                <div class="rule-group">
+                    <h4>Password Rules</h4>
+                    <div class="rule" id="p1">Minimum 4 characters</div>
+                    <div class="rule" id="p2">At least 1 special character (!@#$%^&*)</div>
+                </div>
+
+                <div class="rule-group">
+                    <h4>Confirm Password</h4>
+                    <div class="rule" id="c1">Passwords must match</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- RIGHT SIDE FORM -->
+        <div class="right-side">
+            <div class="form-card">
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                    {% if messages %}
+                        {% for category, message in messages %}
+                            <div class="flash-message {% if category == 'error' %}error-message{% endif %}">
+                                {{ message }}
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                {% endwith %}
+
+                <form id="form" method="POST" action="{{ url_for('register') }}">
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="text" id="email" name="email" placeholder="name123@gmail.com" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="username">Username</label>
+                        <input type="text" id="username" name="username" placeholder="Enter username" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input type="password" id="password" name="password" placeholder="Enter password" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="confirm">Confirm Password</label>
+                        <input type="password" id="confirm" name="confirm_password" placeholder="Confirm password" required>
+                    </div>
+
+                    <button type="submit" id="btn" disabled>Register</button>
+                </form>
+
+                <div class="bottom-text">
+                    Already have an account? <a href="{{ url_for('login') }}">Login</a>
+                </div>
+            </div>
+        </div>
     </div>
-    <div class="brand">AUTO<span>EVAL</span></div>
-    <div class="tagline">Create Your Account</div>
-  </div>
-
-  <div class="divider">
-    <div class="divider-line"></div>
-    <div class="divider-text">Registration Rules</div>
-    <div class="divider-line"></div>
-  </div>
-
-  <div class="rules-box">
-    <div class="rules-title">Requirements</div>
-    <div class="rules-section">Username</div>
-    <div class="rule-item" id="rule-ulen"><span class="rule-icon"></span> Minimum 4 characters</div>
-    <div class="rule-item" id="rule-uspace"><span class="rule-icon"></span> No spaces allowed</div>
-
-    <div class="rules-section">Password</div>
-    <div class="rule-item" id="rule-plen"><span class="rule-icon"></span> Minimum 6 characters</div>
-    <div class="rule-item" id="rule-pnum"><span class="rule-icon"></span> At least 1 number</div>
-    <div class="rule-item" id="rule-pspecial"><span class="rule-icon"></span> At least 1 special character</div>
-
-    <div class="rules-section">Confirm Password</div>
-    <div class="rule-item" id="rule-pmatch"><span class="rule-icon"></span> Passwords must match</div>
-  </div>
-
-  <form method="POST" action="/register" id="regForm">
-    <div class="field">
-      <div class="field-label">Username</div>
-      <div class="field-wrap">
-        <span class="field-icon">👤</span>
-        <input type="text" id="username" name="username" placeholder="Enter username" autocomplete="off" oninput="validateUsername()">
-        <span class="field-check" id="ucheck"></span>
-      </div>
-      <div class="hint" id="uhint"></div>
-    </div>
-
-    <div class="field">
-      <div class="field-label">Password</div>
-      <div class="field-wrap">
-        <span class="field-icon">🔒</span>
-        <input type="password" id="password" name="password" placeholder="Enter password" oninput="validatePassword()">
-        <span class="field-check" id="pcheck"></span>
-      </div>
-      <div class="strength-wrap" id="strengthWrap">
-        <div class="strength-label">Password Strength: <span id="strengthText">-</span></div>
-        <div class="strength-bar"><div class="strength-fill" id="strengthFill"></div></div>
-      </div>
-      <div class="hint" id="phint"></div>
-    </div>
-
-    <div class="field">
-      <div class="field-label">Confirm Password</div>
-      <div class="field-wrap">
-        <span class="field-icon">🔑</span>
-        <input type="password" id="confirm" name="confirm" placeholder="Re-enter password" oninput="validateConfirm()">
-        <span class="field-check" id="ccheck"></span>
-      </div>
-      <div class="hint" id="chint"></div>
-    </div>
-
-    <button type="submit" class="btn" id="submitBtn" disabled>Create Account</button>
-  </form>
-
-  <div class="footer-link">
-    Already have account? <a href="/login">Login</a>
-  </div>
 </div>
 
 <script>
-  const container = document.getElementById('particles');
-  for (let i = 0; i < 25; i++) {
-    const p = document.createElement('div');
-    p.className = 'particle';
-    p.style.left = Math.random() * 100 + '%';
-    p.style.animationDuration = (6 + Math.random() * 10) + 's';
-    p.style.animationDelay = (Math.random() * 10) + 's';
-    p.style.width = p.style.height = (1 + Math.random() * 2) + 'px';
-    container.appendChild(p);
-  }
+const email = document.getElementById("email");
+const username = document.getElementById("username");
+const password = document.getElementById("password");
+const confirmPass = document.getElementById("confirm");
+const btn = document.getElementById("btn");
 
-  let uValid = false, pValid = false, cValid = false;
+let eOk = false, uOk = false, pOk = false, cOk = false;
 
-  function setRule(id, state) {
-    const el = document.getElementById(id);
-    el.classList.remove('valid', 'invalid');
-    if (state === true) el.classList.add('valid');
-    else if (state === false) el.classList.add('invalid');
-  }
+email.addEventListener("input", () => {
+    const pattern = /^[a-zA-Z0-9]+@gmail\.com$/;
+    eOk = pattern.test(email.value);
+    emailRule.className = "rule " + (eOk ? "pass" : "fail");
+    emailRule2.className = "rule " + (eOk ? "pass" : "fail");
+    checkAll();
+});
 
-  function setInput(id, state) {
-    const el = document.getElementById(id);
-    el.classList.remove('valid-input', 'invalid-input');
-    if (state === true) el.classList.add('valid-input');
-    else if (state === false) el.classList.add('invalid-input');
-  }
+username.addEventListener("input", () => {
+    const val = username.value;
+    const a = val.length >= 4;
+    const b = !/\s/.test(val);
 
-  function setHint(id, msg, type) {
-    const el = document.getElementById(id);
-    el.textContent = msg;
-    el.className = 'hint show ' + type;
-  }
+    u1.className = "rule " + (a ? "pass" : "fail");
+    u2.className = "rule " + (b ? "pass" : "fail");
 
-  function setCheck(id, ok) {
-    const el = document.getElementById(id);
-    el.textContent = ok ? '✔' : '✘';
-    el.style.opacity = 1;
-    el.style.color = ok ? 'var(--green)' : 'var(--red)';
-  }
+    uOk = a && b;
+    checkAll();
+});
 
-  function validateUsername() {
-    const val = document.getElementById('username').value;
-    const lenOk = val.length >= 4;
-    const spaceOk = !val.includes(' ');
+password.addEventListener("input", () => {
+    const val = password.value;
+    const a = val.length >= 4;
+    const b = /[!@#$%^&*]/.test(val);
 
-    if (val.length === 0) {
-      setRule('rule-ulen', null); setRule('rule-uspace', null);
-      setInput('username', null);
-      document.getElementById('uhint').className = 'hint';
-      document.getElementById('ucheck').style.opacity = 0;
-      uValid = false;
-    } else {
-      setRule('rule-ulen', lenOk);
-      setRule('rule-uspace', spaceOk);
-      uValid = lenOk && spaceOk;
-      setInput('username', uValid);
-      setCheck('ucheck', uValid);
-      if (!spaceOk) setHint('uhint', 'No spaces allowed', 'error');
-      else if (!lenOk) setHint('uhint', 'Username must be at least 4 characters', 'error');
-      else setHint('uhint', 'Username looks good', 'success');
+    p1.className = "rule " + (a ? "pass" : "fail");
+    p2.className = "rule " + (b ? "pass" : "fail");
+
+    pOk = a && b;
+    checkConfirm();
+    checkAll();
+});
+
+confirmPass.addEventListener("input", () => {
+    checkConfirm();
+    checkAll();
+});
+
+function checkConfirm() {
+    cOk = confirmPass.value === password.value && password.value !== "";
+    c1.className = "rule " + (cOk ? "pass" : "fail");
+}
+
+function checkAll() {
+    btn.disabled = !(eOk && uOk && pOk && cOk);
+}
+
+document.getElementById("form").addEventListener("submit", (e) => {
+    if (!(eOk && uOk && pOk && cOk)) {
+        e.preventDefault();
+        alert("Fix all errors first");
     }
-    checkSubmit();
-  }
-
-  function validatePassword() {
-    const val = document.getElementById('password').value;
-    const lenOk = val.length >= 6;
-    const numOk = /[0-9]/.test(val);
-    const specialOk = /[!@#$%^&*()\-_=+\[\]{};:'",.<>?\/\\|`~]/.test(val);
-
-    const sw = document.getElementById('strengthWrap');
-
-    if (val.length === 0) {
-      setRule('rule-plen', null); setRule('rule-pnum', null); setRule('rule-pspecial', null);
-      setInput('password', null);
-      document.getElementById('phint').className = 'hint';
-      document.getElementById('pcheck').style.opacity = 0;
-      sw.className = 'strength-wrap';
-      pValid = false;
-    } else {
-      setRule('rule-plen', lenOk);
-      setRule('rule-pnum', numOk);
-      setRule('rule-pspecial', specialOk);
-
-      sw.className = 'strength-wrap show';
-      let score = [lenOk, numOk, specialOk, val.length >= 10].filter(Boolean).length;
-      const fill = document.getElementById('strengthFill');
-      const text = document.getElementById('strengthText');
-      const levels = [
-        { w:'25%', c:'#ff4466', t:'Weak' },
-        { w:'50%', c:'#ffaa00', t:'Fair' },
-        { w:'75%', c:'#00ccff', t:'Good' },
-        { w:'100%', c:'var(--green)', t:'Strong' }
-      ];
-      const lvl = levels[Math.min(score - 1, 3)] || levels[0];
-      fill.style.width = lvl.w; fill.style.background = lvl.c; text.textContent = lvl.t;
-
-      pValid = lenOk && numOk && specialOk;
-      setInput('password', pValid);
-      setCheck('pcheck', pValid);
-
-      if (!lenOk) setHint('phint', 'Need at least 6 characters', 'error');
-      else if (!numOk) setHint('phint', 'Add at least one number', 'error');
-      else if (!specialOk) setHint('phint', 'Add a special character', 'error');
-      else setHint('phint', 'Password meets requirements', 'success');
-    }
-
-    if (document.getElementById('confirm').value.length > 0) validateConfirm();
-    checkSubmit();
-  }
-
-  function validateConfirm() {
-    const pass = document.getElementById('password').value;
-    const conf = document.getElementById('confirm').value;
-    const matchOk = conf.length > 0 && pass === conf;
-
-    if (conf.length === 0) {
-      setRule('rule-pmatch', null);
-      setInput('confirm', null);
-      document.getElementById('chint').className = 'hint';
-      document.getElementById('ccheck').style.opacity = 0;
-      cValid = false;
-    } else {
-      setRule('rule-pmatch', matchOk);
-      cValid = matchOk;
-      setInput('confirm', matchOk);
-      setCheck('ccheck', matchOk);
-      if (matchOk) setHint('chint', 'Passwords match', 'success');
-      else setHint('chint', 'Passwords do not match', 'error');
-    }
-    checkSubmit();
-  }
-
-  function checkSubmit() {
-    document.getElementById('submitBtn').disabled = !(uValid && pValid && cValid);
-  }
-
-  document.getElementById('regForm').addEventListener('submit', function(e) {
-    if (!(uValid && pValid && cValid)) {
-      e.preventDefault();
-    }
-  });
+});
 </script>
+
 </body>
 </html>

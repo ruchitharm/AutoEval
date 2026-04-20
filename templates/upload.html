@@ -5,10 +5,62 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Upload - AutoEval</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        .upload-form-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 18px;
+            margin-top: 10px;
+        }
+
+        .field-row {
+            display: grid;
+            grid-template-columns: 220px 1fr;
+            gap: 16px;
+            align-items: center;
+        }
+
+        .field-row label {
+            text-align: right;
+            font-weight: 600;
+            color: #eef7ff;
+            margin: 0;
+        }
+
+        .field-row input,
+        .field-row textarea {
+            width: 100%;
+            text-align: left;
+        }
+
+        .file-box {
+            margin-top: 8px;
+        }
+
+        .upload-panel {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .upload-form-card {
+            max-width: 760px;
+            margin: 0 auto;
+        }
+
+        @media (max-width: 768px) {
+            .field-row {
+                grid-template-columns: 1fr;
+            }
+
+            .field-row label {
+                text-align: left;
+            }
+        }
+    </style>
 </head>
 <body>
     <div class="page-shell">
-        <div class="upload-wrapper">
+        <div class="upload-wrapper" style="width:100%;">
             <div class="topbar">
                 <div class="logo-text">AUTOEVAL UPLOAD</div>
                 <div class="nav-links">
@@ -19,52 +71,54 @@
                 </div>
             </div>
 
-            <div class="section-card">
-                <div class="hero-banner">
-                    <img src="{{ url_for('static', filename='Screenshot-2026-04-20-095939.jpg') }}" alt="Upload Evaluation Banner">
-                </div>
-
+            <div class="section-card upload-panel">
                 <h1 class="section-title">Upload Files for Evaluation</h1>
                 <p class="section-text">
                     Enter student details, upload the answer sheet, and evaluate the result.
                 </p>
 
-                {% with messages = get_flashed_messages() %}
+                {% with messages = get_flashed_messages(with_categories=true) %}
                     {% if messages %}
-                        {% for message in messages %}
-                            <div class="flash-message">{{ message }}</div>
+                        {% for category, message in messages %}
+                            <div class="flash-message {% if category == 'error' %}error-message{% endif %}">
+                                {{ message }}
+                            </div>
                         {% endfor %}
                     {% endif %}
                 {% endwith %}
 
-                <form method="POST" action="{{ url_for('upload') }}" enctype="multipart/form-data" class="upload-form">
-                    <div class="form-group">
-                        <label for="student_name">Student Name</label>
-                        <input type="text" name="student_name" id="student_name" placeholder="Enter student name" required>
-                    </div>
+                <div class="upload-form-card">
+                    <form method="POST" action="{{ url_for('upload') }}" enctype="multipart/form-data">
+                        <div class="upload-form-grid">
+                            <div class="field-row">
+                                <label for="student_name">Student Name</label>
+                                <input type="text" name="student_name" id="student_name" placeholder="Enter student name" required>
+                            </div>
 
-                    <div class="form-group">
-                        <label for="register_number">Register Number / USN</label>
-                        <input type="text" name="register_number" id="register_number" placeholder="Enter register number or USN" required>
-                    </div>
+                            <div class="field-row">
+                                <label for="register_number">Register Number / USN</label>
+                                <input type="text" name="register_number" id="register_number" placeholder="Enter register number or USN" required>
+                            </div>
 
-                    <div class="form-group">
-                        <label for="subject">Subject</label>
-                        <input type="text" name="subject" id="subject" placeholder="Enter subject name" required>
-                    </div>
+                            <div class="field-row">
+                                <label for="subject">Subject</label>
+                                <input type="text" name="subject" id="subject" placeholder="Enter subject name" required>
+                            </div>
 
-                    <div class="form-group">
-                        <label for="model_answer">Model Answer</label>
-                        <textarea name="model_answer" id="model_answer" rows="5" placeholder="Enter model answer" required></textarea>
-                    </div>
+                            <div class="field-row">
+                                <label for="model_answer">Model Answer</label>
+                                <textarea name="model_answer" id="model_answer" rows="5" placeholder="Enter model answer" required></textarea>
+                            </div>
 
-                    <div class="file-box">
-                        <label for="file" style="display:block; margin-bottom: 12px; font-weight: 600;">Choose Answer Sheet Image</label>
-                        <input type="file" name="file" id="file" required>
-                    </div>
+                            <div class="field-row">
+                                <label for="file">Choose Answer Sheet Image</label>
+                                <input type="file" name="file" id="file" required>
+                            </div>
 
-                    <button type="submit" class="btn">Upload and Evaluate</button>
-                </form>
+                            <button type="submit" class="btn">Upload and Evaluate</button>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
