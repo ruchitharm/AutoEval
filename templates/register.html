@@ -66,7 +66,6 @@
   .divider-line { flex:1;height:1px;background:rgba(0,255,170,0.15); }
   .divider-text { font-size:11px;color:rgba(255,255,255,0.3);letter-spacing:2px; }
 
-  /* Rules Box */
   .rules-box {
     background:rgba(0,255,170,0.04);border:1px solid rgba(0,255,170,0.15);
     border-radius:10px;padding:14px 16px;margin-bottom:18px;
@@ -85,7 +84,6 @@
   .rule-item.invalid { color:var(--red); }
   .rule-item.invalid .rule-icon::before { content:'✘';color:var(--red); }
 
-  /* Fields */
   .field { position:relative;margin-bottom:13px; }
   .field-label { font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,0.3);margin-bottom:5px; }
   .field-wrap { position:relative; }
@@ -109,7 +107,6 @@
   .hint.error { color:var(--red); }
   .hint.success { color:var(--green); }
 
-  /* Strength bar */
   .strength-wrap { margin-top:6px;display:none; }
   .strength-wrap.show { display:block; }
   .strength-label { font-size:11px;color:rgba(255,255,255,0.3);margin-bottom:4px;letter-spacing:1px; }
@@ -126,24 +123,9 @@
   }
   .btn:hover:not(:disabled) { transform:translateY(-2px);box-shadow:0 8px 30px rgba(0,170,102,0.5); }
   .btn:disabled { opacity:0.35;cursor:not-allowed; }
-  .btn::after {
-    content:'';position:absolute;top:0;left:-100%;width:60%;height:100%;
-    background:linear-gradient(90deg,transparent,rgba(255,255,255,0.15),transparent);
-    transform:skewX(-20deg);animation:shimmer 3s 1s ease-in-out infinite;
-  }
-  @keyframes shimmer { 0%,100%{left:-100%} 50%{left:160%} }
 
   .footer-link { text-align:center;margin-top:20px;font-size:14px;color:rgba(255,255,255,0.4); }
-  .footer-link a { color:var(--green);text-decoration:none;font-weight:600;transition:text-shadow 0.3s; }
-  .footer-link a:hover { text-shadow:0 0 12px var(--green); }
-
-  .scan-line { position:absolute;inset:0;overflow:hidden;border-radius:20px;pointer-events:none;z-index:20; }
-  .scan-line::after {
-    content:'';position:absolute;left:0;right:0;height:2px;
-    background:linear-gradient(90deg,transparent,rgba(0,255,170,0.3),transparent);
-    animation:scan 4s 1s ease-in-out infinite;opacity:0;
-  }
-  @keyframes scan { 0%{top:-2px;opacity:0} 5%{opacity:1} 95%{opacity:1} 100%{top:100%;opacity:0} }
+  .footer-link a { color:var(--green);text-decoration:none;font-weight:600; }
 </style>
 </head>
 <body>
@@ -154,8 +136,6 @@
 <div class="particles" id="particles"></div>
 
 <div class="card">
-  <div class="scan-line"></div>
-
   <div class="logo">
     <div class="logo-icon">
       <svg viewBox="0 0 24 24"><path d="M15 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm-9-2V7H4v3H1v2h3v3h2v-3h3v-2H6zm9 4c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
@@ -170,30 +150,27 @@
     <div class="divider-line"></div>
   </div>
 
-  <!-- Live Rules Checklist -->
   <div class="rules-box">
-    <div class="rules-title">📋 Requirements</div>
-
+    <div class="rules-title">Requirements</div>
     <div class="rules-section">Username</div>
     <div class="rule-item" id="rule-ulen"><span class="rule-icon"></span> Minimum 4 characters</div>
     <div class="rule-item" id="rule-uspace"><span class="rule-icon"></span> No spaces allowed</div>
 
     <div class="rules-section">Password</div>
     <div class="rule-item" id="rule-plen"><span class="rule-icon"></span> Minimum 6 characters</div>
-    <div class="rule-item" id="rule-pnum"><span class="rule-icon"></span> At least 1 number (0–9)</div>
-    <div class="rule-item" id="rule-pspecial"><span class="rule-icon"></span> At least 1 special character ( ! @ # $ % ^ & * )</div>
+    <div class="rule-item" id="rule-pnum"><span class="rule-icon"></span> At least 1 number</div>
+    <div class="rule-item" id="rule-pspecial"><span class="rule-icon"></span> At least 1 special character</div>
 
     <div class="rules-section">Confirm Password</div>
     <div class="rule-item" id="rule-pmatch"><span class="rule-icon"></span> Passwords must match</div>
   </div>
 
   <form method="POST" action="/register" id="regForm">
-
     <div class="field">
       <div class="field-label">Username</div>
       <div class="field-wrap">
         <span class="field-icon">👤</span>
-        <input type="text" id="username" name="username" placeholder="Enter username (min 4 chars, no spaces)" autocomplete="off" oninput="validateUsername()">
+        <input type="text" id="username" name="username" placeholder="Enter username" autocomplete="off" oninput="validateUsername()">
         <span class="field-check" id="ucheck"></span>
       </div>
       <div class="hint" id="uhint"></div>
@@ -203,7 +180,7 @@
       <div class="field-label">Password</div>
       <div class="field-wrap">
         <span class="field-icon">🔒</span>
-        <input type="password" id="password" name="password" placeholder="Min 6 chars + number + special char" oninput="validatePassword()">
+        <input type="password" id="password" name="password" placeholder="Enter password" oninput="validatePassword()">
         <span class="field-check" id="pcheck"></span>
       </div>
       <div class="strength-wrap" id="strengthWrap">
@@ -217,13 +194,13 @@
       <div class="field-label">Confirm Password</div>
       <div class="field-wrap">
         <span class="field-icon">🔑</span>
-        <input type="password" id="confirm" name="confirm" placeholder="Re-enter your password" oninput="validateConfirm()">
+        <input type="password" id="confirm" name="confirm" placeholder="Re-enter password" oninput="validateConfirm()">
         <span class="field-check" id="ccheck"></span>
       </div>
       <div class="hint" id="chint"></div>
     </div>
 
-    <button type="submit" class="btn" id="submitBtn" disabled>Create Account →</button>
+    <button type="submit" class="btn" id="submitBtn" disabled>Create Account</button>
   </form>
 
   <div class="footer-link">
@@ -232,7 +209,6 @@
 </div>
 
 <script>
-  // Particles
   const container = document.getElementById('particles');
   for (let i = 0; i < 25; i++) {
     const p = document.createElement('div');
@@ -290,9 +266,9 @@
       uValid = lenOk && spaceOk;
       setInput('username', uValid);
       setCheck('ucheck', uValid);
-      if (!spaceOk) setHint('uhint', '✘ No spaces allowed in username', 'error');
-      else if (!lenOk) setHint('uhint', '✘ Username must be at least 4 characters', 'error');
-      else setHint('uhint', '✔ Username looks good!', 'success');
+      if (!spaceOk) setHint('uhint', 'No spaces allowed', 'error');
+      else if (!lenOk) setHint('uhint', 'Username must be at least 4 characters', 'error');
+      else setHint('uhint', 'Username looks good', 'success');
     }
     checkSubmit();
   }
@@ -317,7 +293,6 @@
       setRule('rule-pnum', numOk);
       setRule('rule-pspecial', specialOk);
 
-      // Strength meter
       sw.className = 'strength-wrap show';
       let score = [lenOk, numOk, specialOk, val.length >= 10].filter(Boolean).length;
       const fill = document.getElementById('strengthFill');
@@ -335,10 +310,10 @@
       setInput('password', pValid);
       setCheck('pcheck', pValid);
 
-      if (!lenOk) setHint('phint', '✘ Need at least 6 characters', 'error');
-      else if (!numOk) setHint('phint', '✘ Add at least one number (0–9)', 'error');
-      else if (!specialOk) setHint('phint', '✘ Add a special character like ! @ # $ % ^ & *', 'error');
-      else setHint('phint', '✔ Password meets all requirements!', 'success');
+      if (!lenOk) setHint('phint', 'Need at least 6 characters', 'error');
+      else if (!numOk) setHint('phint', 'Add at least one number', 'error');
+      else if (!specialOk) setHint('phint', 'Add a special character', 'error');
+      else setHint('phint', 'Password meets requirements', 'success');
     }
 
     if (document.getElementById('confirm').value.length > 0) validateConfirm();
@@ -361,8 +336,8 @@
       cValid = matchOk;
       setInput('confirm', matchOk);
       setCheck('ccheck', matchOk);
-      if (matchOk) setHint('chint', '✔ Passwords match!', 'success');
-      else setHint('chint', '✘ Passwords do not match', 'error');
+      if (matchOk) setHint('chint', 'Passwords match', 'success');
+      else setHint('chint', 'Passwords do not match', 'error');
     }
     checkSubmit();
   }

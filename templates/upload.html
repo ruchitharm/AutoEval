@@ -1,28 +1,72 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Upload Answer Sheet</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload - AutoEval</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-    <h2>Upload Student Answer Sheet</h2>
+    <div class="page-shell">
+        <div class="upload-wrapper">
+            <div class="topbar">
+                <div class="logo-text">AUTOEVAL UPLOAD</div>
+                <div class="nav-links">
+                    <a href="{{ url_for('dashboard') }}">Dashboard</a>
+                    <a href="{{ url_for('upload') }}" class="active">Upload</a>
+                    <a href="{{ url_for('history') }}">History</a>
+                    <a href="{{ url_for('logout') }}">Logout</a>
+                </div>
+            </div>
 
-    <form method="POST" enctype="multipart/form-data">
-        <label>Student Name:</label><br>
-        <input type="text" name="student_name" required><br><br>
+            <div class="section-card">
+                <div class="hero-banner">
+                    <img src="{{ url_for('static', filename='Screenshot-2026-04-20-095939.jpg') }}" alt="Upload Evaluation Banner">
+                </div>
 
-        <label>Subject:</label><br>
-        <input type="text" name="subject" required><br><br>
+                <h1 class="section-title">Upload Files for Evaluation</h1>
+                <p class="section-text">
+                    Enter student details, upload the answer sheet, and evaluate the result.
+                </p>
 
-        <label>Model Answer:</label><br>
-        <textarea name="model_answer" rows="8" cols="50" required></textarea><br><br>
+                {% with messages = get_flashed_messages() %}
+                    {% if messages %}
+                        {% for message in messages %}
+                            <div class="flash-message">{{ message }}</div>
+                        {% endfor %}
+                    {% endif %}
+                {% endwith %}
 
-        <label>Upload Answer Sheet Image:</label><br>
-        <input type="file" name="file" accept="image/*" required><br><br>
+                <form method="POST" action="{{ url_for('upload') }}" enctype="multipart/form-data" class="upload-form">
+                    <div class="form-group">
+                        <label for="student_name">Student Name</label>
+                        <input type="text" name="student_name" id="student_name" placeholder="Enter student name" required>
+                    </div>
 
-        <button type="submit">Evaluate</button>
-    </form>
+                    <div class="form-group">
+                        <label for="register_number">Register Number / USN</label>
+                        <input type="text" name="register_number" id="register_number" placeholder="Enter register number or USN" required>
+                    </div>
 
-    <br>
-    <a href="{{ url_for('dashboard') }}">Back to Dashboard</a>
+                    <div class="form-group">
+                        <label for="subject">Subject</label>
+                        <input type="text" name="subject" id="subject" placeholder="Enter subject name" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="model_answer">Model Answer</label>
+                        <textarea name="model_answer" id="model_answer" rows="5" placeholder="Enter model answer" required></textarea>
+                    </div>
+
+                    <div class="file-box">
+                        <label for="file" style="display:block; margin-bottom: 12px; font-weight: 600;">Choose Answer Sheet Image</label>
+                        <input type="file" name="file" id="file" required>
+                    </div>
+
+                    <button type="submit" class="btn">Upload and Evaluate</button>
+                </form>
+            </div>
+        </div>
+    </div>
 </body>
 </html>

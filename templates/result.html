@@ -1,19 +1,72 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Evaluation Result</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Result - AutoEval</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-    <h2>Evaluation Result</h2>
+    <div class="page-shell">
+        <div class="result-wrapper">
+            <div class="topbar">
+                <div class="logo-text">AUTOEVAL RESULT</div>
+                <div class="nav-links">
+                    <a href="{{ url_for('dashboard') }}">Dashboard</a>
+                    <a href="{{ url_for('upload') }}">Upload</a>
+                    <a href="{{ url_for('history') }}">History</a>
+                    <a href="{{ url_for('logout') }}">Logout</a>
+                </div>
+            </div>
 
-    <p><strong>Student Name:</strong> {{ student_name }}</p>
-    <p><strong>Subject:</strong> {{ subject }}</p>
-    <p><strong>Extracted Text:</strong></p>
-    <p>{{ extracted_text }}</p>
-    <p><strong>Similarity Score:</strong> {{ score }}</p>
-    <p><strong>Marks Awarded:</strong> {{ marks }} / 10</p>
+            <div class="section-card result-box">
+                <div class="hero-banner">
+                    <img src="{{ url_for('static', filename='Screenshot-2026-04-20-095939.jpg') }}" alt="Result Banner">
+                </div>
 
-    <a href="{{ url_for('upload') }}">Evaluate Another</a><br><br>
-    <a href="{{ url_for('dashboard') }}">Back to Dashboard</a>
+                <h1 class="section-title">Evaluation Result</h1>
+                <p class="section-text">
+                    Here is the evaluated output with student details and score.
+                </p>
+
+                <div class="result-grid">
+                    <div class="result-item">
+                        <h3>Student Name</h3>
+                        <p>{{ student_name }}</p>
+                    </div>
+
+                    <div class="result-item">
+                        <h3>Register Number / USN</h3>
+                        <p>{{ register_number }}</p>
+                    </div>
+
+                    <div class="result-item">
+                        <h3>Subject</h3>
+                        <p>{{ subject }}</p>
+                    </div>
+
+                    <div class="result-item">
+                        <h3>Extracted Text</h3>
+                        <p>{{ extracted_text }}</p>
+                    </div>
+
+                    <div class="result-item">
+                        <h3>Similarity Score</h3>
+                        <p>{{ score }}</p>
+                    </div>
+
+                    <div class="result-item">
+                        <h3>Marks</h3>
+                        <p>{{ marks }}</p>
+                    </div>
+                </div>
+
+                <div class="actions-row">
+                    <a href="{{ url_for('upload') }}" class="btn">Evaluate Another</a>
+                    <a href="{{ url_for('history') }}" class="btn btn-secondary">View History</a>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 </html>

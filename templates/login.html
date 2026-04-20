@@ -1,27 +1,61 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - AutoEval</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-    <h2>AutoEval Login</h2>
+    <div class="page-shell">
+        <div class="center-card">
+            <div class="grid-2">
+                <div class="left-panel">
+                    <div class="brand-badge">AUTOEVAL PROJECT</div>
+                    <img class="hero-image" src="{{ url_for('static', filename='Screenshot-2026-04-20-095939.jpg') }}" alt="Time to Evaluate">
+                    <h1 class="hero-title">Welcome Back</h1>
+                    <p class="hero-subtitle">
+                        A clean and elegant evaluation platform for upload, result viewing, and history tracking.
+                    </p>
+                </div>
 
-    {% with messages = get_flashed_messages() %}
-      {% if messages %}
-        {% for msg in messages %}
-          <p style="color:red;">{{ msg }}</p>
-        {% endfor %}
-      {% endif %}
-    {% endwith %}
+                <div class="right-panel">
+                    <div class="form-card">
+                        <h2 class="form-title">Login</h2>
+                        <p class="form-subtitle">Enter your credentials to continue</p>
 
-    <form method="POST">
-        <label>Username:</label><br>
-        <input type="text" name="username" required><br><br>
+                        {% with messages = get_flashed_messages(with_categories=true) %}
+                            {% if messages %}
+                                {% for category, message in messages %}
+                                    <div class="flash-message {% if category == 'error' %}error-message{% endif %}">
+                                        {{ message }}
+                                    </div>
+                                {% endfor %}
+                            {% endif %}
+                        {% endwith %}
 
-        <label>Password:</label><br>
-        <input type="password" name="password" required><br><br>
+                        <form method="POST" action="{{ url_for('login') }}">
+                            <div class="form-group">
+                                <label for="username">Username</label>
+                                <input type="text" name="username" id="username" placeholder="Enter your username" required>
+                            </div>
 
-        <button type="submit">Login</button>
-    </form>
+                            <div class="form-group">
+                                <label for="password">Password</label>
+                                <input type="password" name="password" id="password" placeholder="Enter your password" required>
+                            </div>
+
+                            <button type="submit" class="btn">Login</button>
+                        </form>
+
+                        <div class="auth-links">
+                            Don’t have an account?
+                            <a href="{{ url_for('register') }}">Register</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 </html>

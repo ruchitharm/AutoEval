@@ -1,31 +1,70 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Evaluation History</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>History - AutoEval</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-    <h2>Past Evaluations</h2>
+    <div class="page-shell">
+        <div class="history-wrapper">
+            <div class="topbar">
+                <div class="logo-text">AUTOEVAL HISTORY</div>
+                <div class="nav-links">
+                    <a href="{{ url_for('dashboard') }}">Dashboard</a>
+                    <a href="{{ url_for('upload') }}">Upload</a>
+                    <a href="{{ url_for('history') }}" class="active">History</a>
+                    <a href="{{ url_for('logout') }}">Logout</a>
+                </div>
+            </div>
 
-    <table border="1" cellpadding="10">
-        <tr>
-            <th>ID</th>
-            <th>Student Name</th>
-            <th>Subject</th>
-            <th>Similarity Score</th>
-            <th>Marks</th>
-        </tr>
-        {% for row in rows %}
-        <tr>
-            <td>{{ row[0] }}</td>
-            <td>{{ row[1] }}</td>
-            <td>{{ row[2] }}</td>
-            <td>{{ row[3] }}</td>
-            <td>{{ row[4] }}</td>
-        </tr>
-        {% endfor %}
-    </table>
+            <div class="section-card history-box">
+                <div class="hero-banner">
+                    <img src="{{ url_for('static', filename='Screenshot-2026-04-20-095939.jpg') }}" alt="History Banner">
+                </div>
 
-    <br>
-    <a href="{{ url_for('dashboard') }}">Back to Dashboard</a>
+                <h1 class="section-title">Evaluation History</h1>
+                <p class="section-text">
+                    View all your previous evaluations in one centered and clean table layout.
+                </p>
+
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Student Name</th>
+                                <th>Register Number / USN</th>
+                                <th>Subject</th>
+                                <th>Similarity Score</th>
+                                <th>Marks</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% if rows %}
+                                {% for row in rows %}
+                                    <tr>
+                                        <td>{{ row["student_name"] }}</td>
+                                        <td>{{ row["register_number"] }}</td>
+                                        <td>{{ row["subject"] }}</td>
+                                        <td>{{ row["similarity_score"] }}</td>
+                                        <td>{{ row["marks"] }}</td>
+                                    </tr>
+                                {% endfor %}
+                            {% else %}
+                                <tr>
+                                    <td colspan="5">No history available</td>
+                                </tr>
+                            {% endif %}
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="actions-row">
+                    <a href="{{ url_for('upload') }}" class="btn">Upload New File</a>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 </html>
